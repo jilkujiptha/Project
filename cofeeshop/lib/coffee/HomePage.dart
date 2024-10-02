@@ -11,22 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedPage=0;
-  final List<Widget>pages=[
-    ShoPage(),CartPage()
-  ];
-void navigationBar(int index){
-  setState(() {
-    selectedPage=index;
-  });
-}
+  int selectedPage = 0;
+  final List<Widget> pages = [ShoPage(), CartPage()];
+  void navigationBar(int index) {
+    setState(() {
+      selectedPage = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.grey[900],
       bottomNavigationBar: MyBottomNavBar(
-        onTabChange: (index)=>navigationBar(index),
+        onTabChange: (index) => navigationBar(index),
       ),
       body: pages[selectedPage],
     );

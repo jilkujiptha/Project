@@ -1,30 +1,21 @@
-Playfair Display Variable Font
-==============================
+Dancing Script Variable Font
+============================
 
-This download contains Playfair Display as both variable fonts and static fonts.
+This download contains Dancing Script as both a variable font and static fonts.
 
-Playfair Display is a variable font with this axis:
+Dancing Script is a variable font with this axis:
   wght
 
-This means all the styles are contained in these files:
-  PlayfairDisplay-VariableFont_wght.ttf
-  PlayfairDisplay-Italic-VariableFont_wght.ttf
+This means all the styles are contained in a single file:
+  DancingScript-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for Playfair Display:
-  static/PlayfairDisplay-Regular.ttf
-  static/PlayfairDisplay-Medium.ttf
-  static/PlayfairDisplay-SemiBold.ttf
-  static/PlayfairDisplay-Bold.ttf
-  static/PlayfairDisplay-ExtraBold.ttf
-  static/PlayfairDisplay-Black.ttf
-  static/PlayfairDisplay-Italic.ttf
-  static/PlayfairDisplay-MediumItalic.ttf
-  static/PlayfairDisplay-SemiBoldItalic.ttf
-  static/PlayfairDisplay-BoldItalic.ttf
-  static/PlayfairDisplay-ExtraBoldItalic.ttf
-  static/PlayfairDisplay-BlackItalic.ttf
+in those cases you can use the static font files for Dancing Script:
+  static/DancingScript-Regular.ttf
+  static/DancingScript-Medium.ttf
+  static/DancingScript-SemiBold.ttf
+  static/DancingScript-Bold.ttf
 
 Get started
 -----------

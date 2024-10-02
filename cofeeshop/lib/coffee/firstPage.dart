@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[900],
+      backgroundColor: Colors.grey[900],
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
                     child: Text(
                       "Love at first sip",
                       style: TextStyle(
-                          fontFamily: "edu",
+                          fontFamily: "Pro",
                           color: const Color.fromARGB(255, 255, 170, 59),
                           fontSize: 25),
                     ),
