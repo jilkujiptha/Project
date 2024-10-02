@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class ShoPage extends StatefulWidget {
   const ShoPage({super.key});
@@ -8,6 +9,7 @@ class ShoPage extends StatefulWidget {
 }
 
 class _ShoPageState extends State<ShoPage> {
+  final _coffee=Hive.box("mybox");
   List ls = [
     {
       "name": "Caffe Americano",
@@ -58,6 +60,8 @@ class _ShoPageState extends State<ShoPage> {
       "qty": 0
     },
   ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +93,7 @@ class _ShoPageState extends State<ShoPage> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 5 / 6,
+                  childAspectRatio: 2 / 3,
                   crossAxisCount: 2),
               itemCount: ls.length,
               padding: EdgeInsets.all(10),
@@ -154,7 +158,19 @@ class _ShoPageState extends State<ShoPage> {
                                 borderRadius: BorderRadius.circular(100),
                                 color: const Color.fromARGB(255, 255, 170, 59)),
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                   Text(ls[index]["qty"]++);
+                                  if(ls[index]["qty"]>1){
+                                    ls[index]["qty"]--;
+                                  }
+                                  else{
+                                    ls.add(ls[index]);
+                                  }
+                                  print(_coffee.get("1"));
+                                  _coffee.put("1", ls);
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.add,
                                   color: Colors.white,
