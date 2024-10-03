@@ -9,8 +9,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final _coffee=Hive.box("mybox");
-  List  ls=[];
+  final _coffee = Hive.box("mybox");
+  List ls = [];
 
   @override
   void initState() {
@@ -19,14 +19,14 @@ class _CartPageState extends State<CartPage> {
     readData();
   }
 
-  void readData(){
-    if(_coffee.get("1")!=null){
-      ls=_coffee.get("1");
-    }
-    else{
+  void readData() {
+    if (_coffee.get("1") != null) {
+      ls = _coffee.get("1");
+    } else {
       print(ls);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class _CartPageState extends State<CartPage> {
       ),
       body: Column(
         children: [
-           Text(
+          Text(
             "Its a Great Day for Coffee",
             style: TextStyle(
               fontFamily: "Pro",
@@ -54,33 +54,111 @@ class _CartPageState extends State<CartPage> {
               fontSize: 25,
             ),
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Expanded(
             child: ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context,index){
-                return Container(
-                  margin: EdgeInsets.only(bottom: 5, top: 5,left: 15,right: 15),
-                        padding: EdgeInsets.all(15),
-                        width: MediaQuery.of(context).size.width * .9,
-                        height: 130,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.grey[800],
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 5,
-                                offset: Offset(5, 5),
-                                color: Colors.black)
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    
-                  ],
-                ),
-              );
-            }),
+                itemCount: ls.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin:
+                        EdgeInsets.only(bottom: 5, top: 5, left: 10, right: 10),
+                    padding: EdgeInsets.only(left: 10, top: 10),
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey[800],
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 5,
+                            offset: Offset(5, 5),
+                            color: Colors.black)
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              ls[index]["image"],
+                              fit: BoxFit.contain,
+                              width: 100,
+                              height: 100,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  ls[index]["name"],
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    "Best Coffee",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "₹${ls[index]["price"]}",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (ls[index]["qty"] <= 0) {
+                                    null;
+                                  } else {
+                                    ls[index]["qty"]--;
+                                  }
+                                });
+                              },
+                              child: Text(
+                                "-",
+                                style: TextStyle(
+                                    fontSize: 35, color: Colors.white),
+                              ),
+                            ),
+                            Text(
+                              ls[index]["qty"].toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  ls[index]["qty"]++;
+                                });
+                              },
+                              child: Text(
+                                "+",
+                                style: TextStyle(
+                                    fontSize: 35, color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }),
           ),
         ],
       ),

@@ -9,7 +9,8 @@ class ShoPage extends StatefulWidget {
 }
 
 class _ShoPageState extends State<ShoPage> {
-  final _coffee=Hive.box("mybox");
+  final _coffee = Hive.box("mybox");
+  List cart = [];
   List ls = [
     {
       "name": "Caffe Americano",
@@ -60,7 +61,6 @@ class _ShoPageState extends State<ShoPage> {
       "qty": 0
     },
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -160,15 +160,14 @@ class _ShoPageState extends State<ShoPage> {
                             child: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                   Text(ls[index]["qty"]++);
-                                  if(ls[index]["qty"]>1){
-                                    ls[index]["qty"]--;
-                                  }
-                                  else{
-                                    ls.add(ls[index]);
-                                  }
-                                  print(_coffee.get("1"));
-                                  _coffee.put("1", ls);
+                                    ls[index]["qty"]++;
+                                    if (ls[index]["qty"] > 1) {
+                                      ls[index]["qty"]--;
+                                    } else {
+                                      cart.add(ls[index]);
+                                    }
+                                    print(_coffee.get("1"));
+                                    _coffee.put("1", cart);
                                   });
                                 },
                                 icon: Icon(
