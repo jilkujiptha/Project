@@ -47,7 +47,7 @@ class _CartPageState extends State<CartPage> {
       body: Column(
         children: [
           Text(
-            "Its a Great Day for Coffee",
+            "Find the Best Coffee for You ",
             style: TextStyle(
               fontFamily: "Pro",
               color: const Color.fromARGB(255, 255, 170, 59),
@@ -115,7 +115,7 @@ class _CartPageState extends State<CartPage> {
                                   height: 15,
                                 ),
                                 Text(
-                                  "₹${ls[index]["price"]}",
+                                  "₹${(ls[index]["price"]*ls[index]["qty"])}",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
@@ -150,7 +150,7 @@ class _CartPageState extends State<CartPage> {
                               child: Text(
                                 "+",
                                 style: TextStyle(
-                                    fontSize: 35, color: Colors.white),
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ),
                           ],

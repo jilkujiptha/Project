@@ -93,7 +93,7 @@ class _ShoPageState extends State<ShoPage> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 2 / 3,
+                  childAspectRatio: 3/ 4,
                   crossAxisCount: 2),
               itemCount: ls.length,
               padding: EdgeInsets.all(10),
@@ -151,9 +151,9 @@ class _ShoPageState extends State<ShoPage> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 15),
-                            width: 40,
-                            height: 40,
+                            margin: EdgeInsets.only(right: 10),
+                            width: 35,
+                            height: 35,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: const Color.fromARGB(255, 255, 170, 59)),
@@ -173,6 +173,7 @@ class _ShoPageState extends State<ShoPage> {
                                 icon: Icon(
                                   Icons.add,
                                   color: Colors.white,
+                                  size: 20,
                                 )),
                           )
                         ],
