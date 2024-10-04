@@ -16,8 +16,7 @@ class MyBottomNavBar extends StatelessWidget {
           color: Colors.grey[600],
           mainAxisAlignment: MainAxisAlignment.center,
           tabBorderRadius: 5,
-          tabActiveBorder:
-              Border.all(color: Colors.grey.shade800),
+          tabActiveBorder: Border.all(color: Colors.grey.shade800),
           activeColor: Colors.white,
           tabs: [
             GButton(
@@ -25,7 +24,7 @@ class MyBottomNavBar extends StatelessWidget {
               text: "Home",
             ),
             GButton(
-              icon: Icons.home,
+              icon: Icons.card_travel,
               text: "Cart",
             )
           ]),
