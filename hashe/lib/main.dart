@@ -5,7 +5,7 @@ import 'package:hashe/Hashe/signupPage.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: LoginPage(),
+    home: SignupPage(),
     routes: {
       "home": (context) => HomePage(),
       "login": (context) => LoginPage(),
