@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hashe/Hashe/homePage.dart';
-void main(){
-  runApp(MaterialApp(home: HomePage(),));
+import 'package:hashe/Hashe/loginPage.dart';
+import 'package:hashe/Hashe/signupPage.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: LoginPage(),
+    routes: {
+      "home": (context) => HomePage(),
+      "login": (context) => LoginPage(),
+      "signup": (context) => SignupPage(),
+    },
+  ));
 }
