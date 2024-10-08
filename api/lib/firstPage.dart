@@ -73,22 +73,70 @@ class _MainPageState extends State<MainPage> {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                data[index]["brand"],
-                                style: TextStyle(fontSize: 16),
-                              ),
+                              child: 
+                                data[index]["brand"]!=null?
+                                Text(data[index]["brand"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),):
+                                Text("",style: TextStyle(fontSize: 0),),
+                              
                             ),
                             Container(
                                 padding: EdgeInsets.only(left: 10),
                                 child: Text(
                                   data[index]["title"],
                                 )),
+                                Row(
+                                  children: [
+                                    Icon(Icons.star,
+                                    size: 25,
+                                    color: data[index]["rating"]>=4?
+                                    Colors.green:data[index]["rating"]>3?
+                                    Colors.yellow:data[index]["rating"]>2?
+                                    Colors.orange:Colors.red
+                                    ), 
+                                    Icon(Icons.star,
+                                    size: 25,
+                                     color: data[index]["rating"]>=4?
+                                    Colors.green:data[index]["rating"]>3?
+                                    Colors.yellow:data[index]["rating"]>2?
+                                    Colors.orange:Colors.black
+                                    ),
+                                    Icon(Icons.star,
+                                    size: 25,
+                                     color: data[index]["rating"]>=4?
+                                    Colors.green:data[index]["rating"]>3?
+                                    Colors.yellow:Colors.black
+                                    ),
+                                    Icon(Icons.star,
+                                    size: 25,
+                                     color: data[index]["rating"]>=4?
+                                     Colors.green:Colors.black
+                                    ),
+                                    SizedBox(width: 10,),
+                                  ],
+                                ),
                             Container(
                                 padding: EdgeInsets.only(left: 10),
                                 child: Text(data[index]["category"])),
                             Row(
                               children: [
-                                
+                                Icon(Icons.arrow_downward,
+                                size: 23,
+                                color: Colors.green,
+                                ),
+                                Text(data[index]["discountPercentage"].toString(),
+                                style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
+                                Text("%",style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
+                                SizedBox(width: 5,),
+                                Text("\$${data[index]["price"]}",
+                                style: TextStyle(fontSize: 15,decoration: TextDecoration.lineThrough,color: Colors.grey),),
+                                SizedBox(width: 5,),
+                                Container(
+                                  width: 50,
+                                  height: 20,
+                                  child: Text("\$${(data[index]["price"]-(data[index]["price"]*(data[index]["discountPercentage"]/100))).toString()}", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)
+                                  
+                                  ),
+                                )
                               ],
                             )
                           ],
