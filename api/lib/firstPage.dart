@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
-
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -50,97 +49,102 @@ class _MainPageState extends State<MainPage> {
                         crossAxisCount: 2),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 10,
-                                  color: Colors.grey,
-                                  offset: Offset(5, 5))
-                            ]),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 120,
-                              child: Image.network(
-                                data[index]["images"][0],
-                                fit: BoxFit.contain,
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "second",arguments: index.toString());
+                        },
+                       child:   Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 10,
+                                    color: Colors.grey,
+                                    offset: Offset(5, 5))
+                              ]),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 120,
+                                child: Image.network(
+                                  data[index]["images"][0],
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: 
-                                data[index]["brand"]!=null?
-                                Text(data[index]["brand"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),):
-                                Text("",style: TextStyle(fontSize: 0),),
-                              
-                            ),
-                            Container(
+                              Container(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  data[index]["title"],
-                                )),
-                                Row(
-                                  children: [
-                                    Icon(Icons.star,
-                                    size: 25,
-                                    color: data[index]["rating"]>=4?
-                                    Colors.green:data[index]["rating"]>3?
-                                    Colors.yellow:data[index]["rating"]>2?
-                                    Colors.orange:Colors.red
-                                    ), 
-                                    Icon(Icons.star,
-                                    size: 25,
-                                     color: data[index]["rating"]>=4?
-                                    Colors.green:data[index]["rating"]>3?
-                                    Colors.yellow:data[index]["rating"]>2?
-                                    Colors.orange:Colors.black
-                                    ),
-                                    Icon(Icons.star,
-                                    size: 25,
-                                     color: data[index]["rating"]>=4?
-                                    Colors.green:data[index]["rating"]>3?
-                                    Colors.yellow:Colors.black
-                                    ),
-                                    Icon(Icons.star,
-                                    size: 25,
-                                     color: data[index]["rating"]>=4?
-                                     Colors.green:Colors.black
-                                    ),
-                                    SizedBox(width: 10,),
-                                  ],
-                                ),
-                            Container(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(data[index]["category"])),
-                            Row(
-                              children: [
-                                Icon(Icons.arrow_downward,
-                                size: 23,
-                                color: Colors.green,
-                                ),
-                                Text(data[index]["discountPercentage"].toString(),
-                                style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
-                                Text("%",style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
-                                SizedBox(width: 5,),
-                                Text("\$${data[index]["price"]}",
-                                style: TextStyle(fontSize: 15,decoration: TextDecoration.lineThrough,color: Colors.grey),),
-                                SizedBox(width: 5,),
-                                Container(
-                                  width: 50,
-                                  height: 20,
-                                  child: Text("\$${(data[index]["price"]-(data[index]["price"]*(data[index]["discountPercentage"]/100))).toString()}", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)
-                                  
+                                child: 
+                                  data[index]["brand"]!=null?
+                                  Text(data[index]["brand"],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),):
+                                  Text("",style: TextStyle(fontSize: 0),),
+                                
+                              ),
+                              Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    data[index]["title"],
+                                  )),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.star,
+                                      size: 25,
+                                      color: data[index]["rating"]>=4?
+                                      Colors.green:data[index]["rating"]>3?
+                                      Colors.yellow:data[index]["rating"]>2?
+                                      Colors.orange:Colors.red
+                                      ), 
+                                      Icon(Icons.star,
+                                      size: 25,
+                                       color: data[index]["rating"]>=4?
+                                      Colors.green:data[index]["rating"]>3?
+                                      Colors.yellow:data[index]["rating"]>2?
+                                      Colors.orange:Colors.black
+                                      ),
+                                      Icon(Icons.star,
+                                      size: 25,
+                                       color: data[index]["rating"]>=4?
+                                      Colors.green:data[index]["rating"]>3?
+                                      Colors.yellow:Colors.black
+                                      ),
+                                      Icon(Icons.star,
+                                      size: 25,
+                                       color: data[index]["rating"]>=4?
+                                       Colors.green:Colors.black
+                                      ),
+                                      SizedBox(width: 10,),
+                                    ],
                                   ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
+                              Container(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(data[index]["category"])),
+                              Row(
+                                children: [
+                                  Icon(Icons.arrow_downward,
+                                  size: 23,
+                                  color: Colors.green,
+                                  ),
+                                  Text(data[index]["discountPercentage"].toString(),
+                                  style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
+                                  Text("%",style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
+                                  SizedBox(width: 5,),
+                                  Text("\$${data[index]["price"]}",
+                                  style: TextStyle(fontSize: 15,decoration: TextDecoration.lineThrough,color: Colors.grey),),
+                                  SizedBox(width: 5,),
+                                  Container(
+                                    width: 50,
+                                    height: 20,
+                                    child: Text("\$${(data[index]["price"]-(data[index]["price"]*(data[index]["discountPercentage"]/100))).toString()}", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)
+                                    
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        )
                       );
                     }),
               ),
