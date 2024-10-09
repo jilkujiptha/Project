@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class MainPage extends StatefulWidget {
@@ -12,11 +13,16 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List<dynamic> ls = [];
   List<dynamic> data = [];
+  final _Flip=Hive.box("mybox");
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     addData();
+  }
+
+  void keyData(){
+    _Flip.put("1", data);
   }
 
   void addData() async {
@@ -52,6 +58,7 @@ class _MainPageState extends State<MainPage> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, "second",arguments: index.toString());
+                          keyData();
                         },
                        child:   Container(
                           decoration: BoxDecoration(
@@ -129,14 +136,14 @@ class _MainPageState extends State<MainPage> {
                                   Text(data[index]["discountPercentage"].toString(),
                                   style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
                                   Text("%",style: TextStyle(color: const Color.fromARGB(255, 2, 99, 5),fontSize: 15),),
-                                  SizedBox(width: 5,),
+                                  // SizedBox(width: 5,),
                                   Text("\$${data[index]["price"]}",
                                   style: TextStyle(fontSize: 15,decoration: TextDecoration.lineThrough,color: Colors.grey),),
-                                  SizedBox(width: 5,),
+                                  // SizedBox(width: 5,),
                                   Container(
-                                    width: 50,
+                                    width: 52,
                                     height: 20,
-                                    child: Text("\$${(data[index]["price"]-(data[index]["price"]*(data[index]["discountPercentage"]/100))).toString()}", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)
+                                    child: Text("\$${(data[index]["price"]-(data[index]["price"]*(data[index]["discountPercentage"]/100))).toString()}", style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)
                                     
                                     ),
                                   )
