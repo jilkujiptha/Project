@@ -154,10 +154,14 @@ class _TouchPageState extends State<TouchPage> {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                        "\$${(data[index]["price"] - (data[index]["price"] * (data[index]["discountPercentage"] / 100))).toString()}",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold))
+                    Container(
+                      width:80,
+                      height: 30,
+                      child: Text(
+                          "\$${(data[index]["price"] - (data[index]["price"] * (data[index]["discountPercentage"] / 100))).toString()}",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -174,6 +178,18 @@ class _TouchPageState extends State<TouchPage> {
                       style: TextStyle(fontSize: 15, color: Colors.red),
                     )
                   ],
+                ),
+                 SizedBox(height: 20,),
+                         Row(
+                          children: [
+                             Text("Return policy : ",style: TextStyle( fontSize: 15)),
+                          Text(data[index]["returnPolicy"], style: TextStyle( fontSize: 15),),
+                          ],
+                         ),
+                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 5,
+                  color: const Color.fromARGB(255, 237, 247, 252),
                 ),
                 SizedBox(
                   height: 10,
@@ -217,15 +233,67 @@ class _TouchPageState extends State<TouchPage> {
                         )),
                   ],
                 ),
+                
                 SizedBox(
                   height: 10,
                 ),
                 Text("REVIEWS",
                     style: TextStyle(
                         fontSize: 20, decoration: TextDecoration.underline)),
-                        ListView.builder(itemBuilder: (context, indx) {
-                          Text(data[index]["reviews"][indx]["comment"]);
-                        },)
+                        Container(
+                          height: 90,
+                          child: Expanded(
+                            child: ListView.builder(
+                              itemCount: data[index]["reviews"].length,
+                              itemBuilder: (context, indx) {
+                             return Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                     width: 50,
+                                     height: 30,
+                                    child: Image.asset("./lib/icons/full-stop.png")),
+                                  Text(data[index]["reviews"][indx]["comment"]),
+                                ],
+                              )
+                              );
+                            },),
+                          ),
+                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 50,
+                          height: 30,
+                          child: Image.asset("./lib/icons/full-stop.png")),
+                          Text("Ratings"),
+                          SizedBox(width: 10,),
+                          Text(data[index]["rating"].toString()),
+                        ],
+                      ), 
+                      
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "third");
+                      },
+                      child: Container(
+                        width: 195,
+                        height: 60,
+                        color: Colors.white,
+                        child: Center(child: Text("ADD TO CART")),
+                      ),
+                    ),
+                    Container(
+                      width: 195,
+                      height: 60,
+                      color: const Color.fromARGB(255, 241, 218, 10),
+                      child: Center(child: Text("BUY NOW")),
+                    ),
+                  ],
+                )           
+                        
               ],
             ),
           ],
