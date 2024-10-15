@@ -13,6 +13,7 @@ class TouchPage extends StatefulWidget {
 
 class _TouchPageState extends State<TouchPage> {
   List<dynamic> data = [];
+  List cart=[];
 
   final _Flip = Hive.box("mybox");
   @override
@@ -271,13 +272,13 @@ class _TouchPageState extends State<TouchPage> {
                           Text(data[index]["rating"].toString()),
                         ],
                       ), 
-                      
-                Row(
+                   Row(
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "third");
-                      },
+                          cart.add(data[index]);
+                        _Flip.put("1", cart);
+                        },
                       child: Container(
                         width: 195,
                         height: 60,

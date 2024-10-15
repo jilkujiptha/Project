@@ -38,6 +38,17 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
+          actions: [
+            GestureDetector(
+              onTap: () {
+              Navigator.pushNamed(context, "third");
+              },
+              child: Icon(Icons.shopping_bag_outlined,
+              size: 30,
+              color: Colors.black,
+              ),
+            )
+          ],
         ),
         body: Container(
           margin: EdgeInsets.only(left: 10, right: 10),
