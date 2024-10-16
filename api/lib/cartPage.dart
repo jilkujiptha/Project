@@ -38,7 +38,7 @@ class _CartPageState extends State<CartPage> {
           itemBuilder: (context, index) {
           return Container(
             width: MediaQuery.of(context).size.width,
-            height: 300,
+            height: 200,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -59,10 +59,14 @@ class _CartPageState extends State<CartPage> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey)
                   ),
-                  child: Image.network(
-                  data[index]["images"][0],
-                  fit: BoxFit.contain,
-                                ),
+                  child: Column(
+                    children: [
+                      Image.network(
+                      data[index]["images"][0],
+                      fit: BoxFit.contain,
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,8 +75,8 @@ class _CartPageState extends State<CartPage> {
                       margin: EdgeInsets.only(top: 20,left: 10),
                       child: Text(data[index]["title"],style: TextStyle(fontSize: 13,letterSpacing: 1,fontWeight: FontWeight.bold),
                         ),
-                      ),
-                        SizedBox(
+                      ),                        
+                      SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -118,8 +122,6 @@ class _CartPageState extends State<CartPage> {
                    SizedBox(
                   height: 10,
                 ),
-                SizedBox(width: 10,),
-                Text(data[index]["category"]),
                 Row(
                   children: [
                     SizedBox(width: 9),
@@ -162,7 +164,11 @@ class _CartPageState extends State<CartPage> {
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     )
                   ],
-                ),
+                ),SizedBox(height: 10,),
+                 Text(data[index]["availabilityStatus"].toString(),
+                        style: TextStyle(
+                          fontSize: 15,color: Colors.pink[800]
+                        )),
                 ],
               )
           ]));
