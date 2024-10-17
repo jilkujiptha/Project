@@ -286,8 +286,16 @@ class _TouchPageState extends State<TouchPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                              cart.add(data[index]);
-                            _Flip.put("1", cart);
+                            if(_Flip.get("2")!=null){
+                              cart=_Flip.get("2");
+                               cart.add(data[index]);
+                            _Flip.put("2", cart);
+                            print(_Flip.get("2"));
+                            }else{
+                               cart.add(data[index]);
+                            _Flip.put("2", cart);
+                            print(_Flip.get("2"));
+                            }
                             setState(() {
                              _isRunning=true;
                             });

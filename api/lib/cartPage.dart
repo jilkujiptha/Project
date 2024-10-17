@@ -20,7 +20,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   void addData() {
-    data = _Flip.get("1");
+    data = _Flip.get("2");
     print(data);
   }
 
@@ -53,7 +53,7 @@ class _CartPageState extends State<CartPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 20,left: 10),
+                  margin: EdgeInsets.only(top: 30,left: 10),
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
@@ -164,11 +164,19 @@ class _CartPageState extends State<CartPage> {
                               fontSize: 20, fontWeight: FontWeight.bold)),
                     )
                   ],
-                ),SizedBox(height: 10,),
-                 Text(data[index]["availabilityStatus"].toString(),
-                        style: TextStyle(
-                          fontSize: 15,color: Colors.pink[800]
-                        )),
+                ),SizedBox(height: 9),
+                 Row(
+                   children: [
+                    SizedBox(width: 20),
+                     Text(data[index]["availabilityStatus"].toString(),
+                            style: TextStyle(
+                              fontSize: 15,color: Colors.pink[800]
+                            )),
+                            Text(". Order now.", style: TextStyle(
+                              fontSize: 15,color: Colors.pink[800]
+                            ))
+                   ],
+                 ),
                 ],
               )
           ]));
