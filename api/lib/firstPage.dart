@@ -28,7 +28,9 @@ class _MainPageState extends State<MainPage> {
   void addData() async {
     var res = await http.get(Uri.parse("https://dummyjson.com/products"));
     ls.add(jsonDecode(res.body));
-    data = ls[0]["products"];
+    setState(() {
+      data = ls[0]["products"];
+    });
     print(data);
   }
 

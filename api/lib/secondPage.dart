@@ -21,12 +21,9 @@ class _TouchPageState extends State<TouchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addData();
   }
 
-  void addData() {
-    data = _Flip.get("1");
-  }
+  
 
   @override
   Widget build(BuildContext context) {
