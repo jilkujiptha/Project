@@ -59,13 +59,9 @@ class _CartPageState extends State<CartPage> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey)
                   ),
-                  child: Column(
-                    children: [
-                      Image.network(
-                      data[index]["images"][0],
-                      fit: BoxFit.contain,
-                      ),
-                    ],
+                  child: Image.network(
+                  data[index]["images"][0],
+                  fit: BoxFit.contain,
                   ),
                 ),
                 Column(

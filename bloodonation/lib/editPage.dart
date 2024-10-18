@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 
-class ThirdPage extends StatefulWidget {
-  const ThirdPage({super.key});
+class ForthPage extends StatefulWidget {
+  const ForthPage({super.key});
 
   @override
-  State<ThirdPage> createState() => _ThirdPageState();
+  State<ForthPage> createState() => _ForthPageState();
 }
 
-class _ThirdPageState extends State<ThirdPage> {
+class _ForthPageState extends State<ForthPage> {
   TextEditingController name = TextEditingController();
   TextEditingController age = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController dob = TextEditingController();
   TextEditingController place = TextEditingController();
   String? group;
+  String? id;
   String? _isSelected;
   bool _isChecked = false;
   Map mp={};
@@ -31,6 +32,29 @@ class _ThirdPageState extends State<ThirdPage> {
     "O+",
     "O-"
   ];
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+  void getData()async{
+    var resp=await http.get(Uri.parse("http://jandk.tech/api/getdonor/$id"));
+    if(id !=null){
+    var resp=await http.get(Uri.parse("http://jandk.tech/api/getdonor/$id"));
+    mp=jsonDecode(resp.body);
+    }
+    setState(() {
+      name.text=mp["name"];
+      age.text=mp["age"].toString();
+      phone.text=mp["phone"].toString();
+      dob.text=mp["dob"];
+      group=mp["blood_group"];
+      place.text=mp["place"];
+    });
+  }
+
+
   void birthDate() {
     RegExp reg = RegExp(r'(\d{4})-(0\d||1[0-2])-([0-2]\d||3[0-1])$');
     _isChecked == false
@@ -107,7 +131,7 @@ class _ThirdPageState extends State<ThirdPage> {
   // }
 
   void saveData()async{
-    mp={
+   Map map={
       "name":name.text,
       "age":age.text,
       "phone":phone.text,
@@ -115,16 +139,17 @@ class _ThirdPageState extends State<ThirdPage> {
       "place":place.text,
       "blood_group":group
     };
-    print(mp);
-    var resp=await http.post(Uri.parse("http://jandk.tech/api/adddonor"),
+    print(map);
+    var resp=await http.put(Uri.parse("http://jandk.tech/api/editdonor/$id"),
     headers: {"Content-Type":"application/json"},
-    body: json.encode(mp));
+    body: json.encode(map));
     print(resp.statusCode);
     Navigator.pushNamedAndRemoveUntil(context, "/secondPage", (Route route)=>false);
   }
 
   @override
   Widget build(BuildContext context) {
+    id=ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

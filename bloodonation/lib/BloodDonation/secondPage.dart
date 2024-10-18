@@ -30,7 +30,11 @@ class _SecondPageState extends State<SecondPage> {
     });
     print(ls);
   }
+  void delete(String id)async{
+    var resp=await http.get(Uri.parse("http://jandk.tech/api/deletedonor/$id"));
+    addData();
 
+  }
   // void display() async {
   //   final pref = await SharedPreferences.getInstance();
   //   final res = pref.getString("blood");
@@ -89,7 +93,7 @@ class _SecondPageState extends State<SecondPage> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Column(
                             children: [
@@ -122,13 +126,13 @@ class _SecondPageState extends State<SecondPage> {
                             width: 25,
                           ),
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 ls[index]["name"],
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 25),
+                                    color: Colors.black, fontSize: 20),
                               ),
                               Row(
                                 children: [
@@ -163,8 +167,28 @@ class _SecondPageState extends State<SecondPage> {
                                   ),
                                 ],
                               ),
+                             
                             ],
                           ),
+                          SizedBox(width: 25),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                      
+                           Center(child: GestureDetector(
+                             onTap: () {
+                               delete(ls[index]["_id"]);
+                             },
+                             child: Text("Delete",style: TextStyle(color: Colors.red[900]),))),
+                          SizedBox(height: 20,),
+                        
+                             Center(child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/forthPage",arguments: ls[index]["_id"]);
+                              },
+                              child: Text("Edit",style: TextStyle(color: Colors.red[900]),))),
+                          ],
+                        )
                         ],
                       ),
                     );
