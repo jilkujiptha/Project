@@ -14,6 +14,7 @@ class _ToDO3State extends State<ToDO3> {
   TextEditingController add=TextEditingController();
   @override
   Widget build(BuildContext context) {
+    index=int.parse(ModalRoute.of(context)?.settings.arguments as String);
     return Consumer<NumberListProvider>(builder: (context,TodoListModel,child)=>Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
@@ -24,7 +25,7 @@ class _ToDO3State extends State<ToDO3> {
           Container(
             padding: EdgeInsets.only(bottom: 10,left: 20),
             margin: EdgeInsets.only(left: 20,right: 20),
-            width: 350,
+            width: MediaQuery.of(context).size.width*.7,
             height: 50,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
             color: Colors.grey[900]

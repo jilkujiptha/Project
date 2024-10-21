@@ -27,13 +27,13 @@ class _ToDo1State extends State<ToDo1> {
         itemCount: TodoListModel.ls.length,
         itemBuilder: (context,index){
           return Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(
                 bottom: 10, top: 10, left: 20, right: 20),
-                padding: EdgeInsets.only(left: 20,top: 10),
-                width: MediaQuery.of(context).size.width * .7,
+                padding: EdgeInsets.only(left: 20,top: 10,right: 10),
+                width: MediaQuery.of(context).size.width * .6,
                 height: 50,
                decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -45,15 +45,35 @@ class _ToDo1State extends State<ToDo1> {
                 style: TextStyle(color: Colors.white,fontSize: 18),),
               ),
                Container(
-            width: 80,
+            width: 50,
+            height: 50,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+            color: Colors.grey[900]
+            ),
+            child: TextButton(onPressed: (){
+              Navigator.pushNamed(context, "thirdpage",arguments: index.toString());
+            }, child: Icon(Icons.edit,
+            size: 20,
+            color: Colors.white,
+            )),
+          ),
+          SizedBox(width: 10,),
+           Container(
+            width: 50,
             height: 50,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
             color: Colors.grey[900]
             ),
             child: TextButton(onPressed: (){
-              Navigator.pushNamed(context, "thirdpage");
-            }, child: Text("EDIT",style: TextStyle(color: Colors.white),)),
-          )
+              setState(() {
+                TodoListModel.ls.removeAt(index);
+              });
+            }, child: Icon(Icons.delete,
+            size: 20,
+            color: Colors.white,
+            )),
+          ),
             ],
           );
         }),

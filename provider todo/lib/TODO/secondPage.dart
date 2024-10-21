@@ -23,7 +23,7 @@ class __ToDo2State extends State<ToDo2> {
           Container(
             padding: EdgeInsets.only(bottom: 10,left: 20),
             margin: EdgeInsets.only(left: 20,right: 20),
-            width: 350,
+            width: MediaQuery.of(context).size.width*.7,
             height: 50,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
             color: Colors.grey[900]

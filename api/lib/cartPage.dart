@@ -173,6 +173,49 @@ class _CartPageState extends State<CartPage> {
                             ))
                    ],
                  ),
+                 SizedBox(height: 10),
+                 Container(
+                   width: MediaQuery.of(context).size.width*.5,
+                   height: 36,
+                   child: Center(child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          data.removeAt(index);
+                          // Navigator.pop(context);
+                        });
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: Colors.grey,
+                                  title: Text(
+                                    "Successfully Completed",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  actions: [
+                                    Center(
+                                        child: Icon(
+                                      Icons.done,
+                                      size: 50,
+                                      color: const Color.fromARGB(
+                                          133, 57, 238, 63),
+                                    ))
+                                  ],
+                                );
+                              });
+                         Text(
+                          "To Pay",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        );
+                    },
+                    child: Text("BUY NOW",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),))),
+                  ),
                 ],
               )
           ]));
