@@ -37,7 +37,7 @@ TextEditingController pword=TextEditingController();
     if(res.statusCode==200){
       _olx.put("key", map["token"]);
       print(_olx.get("key"));
-      Navigator.pushNamedAndRemoveUntil(context, "homepage", (route)=>false);
+      Navigator.pushNamedAndRemoveUntil(context, "homepage",(route)=>false);
     }
     else{
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(map["msg"])));
