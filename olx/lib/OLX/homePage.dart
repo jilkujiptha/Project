@@ -57,8 +57,9 @@ print(data);
           ), 
           itemBuilder: (context,index){
             return Container(
+              padding: EdgeInsets.only(left: 10,right: 10,top: 10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
@@ -69,13 +70,46 @@ print(data);
                 ]
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
-                  Text(data[index]["pname"])
-              ],
-            ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[600]
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Row(
+                    children: [
+                      Text("₹",style: TextStyle(fontSize: 20),),
+                      SizedBox(width: 5,),
+                  Text(data[index]["price"].toString(),style: TextStyle(fontSize: 15),),
+                    ],
+                  ),
+                  Text(data[index]["pname"]),
+                  Text(data[index]["description"],maxLines: 1,),
+                ],
+              )
           );
         }),
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.grey,
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
+                color: Colors.white
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

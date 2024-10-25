@@ -7,7 +7,7 @@ import 'package:olx/OLX/homePage.dart';
 void main()async{
   await Hive.initFlutter();
   var box=await Hive.openBox("mybox");
-  runApp(MaterialApp(home: Homepage(),
+  runApp(MaterialApp(home: SignIn(),
   routes: {
     "homepage":(context)=>Homepage(),
     "signin":(context)=>SignIn(),

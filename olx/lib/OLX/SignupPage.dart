@@ -25,14 +25,14 @@ TextEditingController address=TextEditingController();
 TextEditingController pin=TextEditingController();
 TextEditingController phone=TextEditingController();
  bool obs=true;
- String? image;
+ String? imge;
 
 
   void addData()async{
     if(_image!=null){
       final bytes = await _image!.readAsBytes();
     final base64img = base64Encode(bytes);
-    image=base64img;
+    imge=base64img;
     }
     mp={
       "username":uname.text,
@@ -43,7 +43,7 @@ TextEditingController phone=TextEditingController();
       "address":address.text,
       "phone":phone.text,
       "pincode":pin.text,
-      "profile": image
+      "profile": imge
     };
     var res=await http.post(Uri.parse("http://jandk.tech/api/signup"),
     headers: {"Content-Type":"application/json"},
