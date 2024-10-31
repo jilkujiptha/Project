@@ -109,6 +109,8 @@ class _LoginPageState extends State<LoginPage> {
             Text("Don't have account?"),
             SizedBox(width: 5,),
             GestureDetector(
+              onTap: () {
+              },
               child: Text("Sign up",style: TextStyle(color: const Color.fromARGB(255, 96, 177, 99),fontSize: 15),))
               ],
             ),
