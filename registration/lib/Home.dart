@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +11,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController add=TextEditingController();
+  final CollectionReference Todos=FirebaseFirestore.instance.collection("Todos");
+void addTodo(){
+  final data={"task":add.text};
+  Todos.add(data);
+}
+
+  Future logout()async{
+    await FirebaseAuth.instance.signOut();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +27,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         iconTheme: IconThemeData(color:  const Color.fromARGB(255, 96, 177, 99)),
         backgroundColor: Colors.white,
-        title: Center(child: Text("HOMEPAGE",style: TextStyle(color: const Color.fromARGB(255, 96, 177, 99)),)),
+        title: Center(child: Text("HOMEPAGE",
+        style: TextStyle(color: const Color.fromARGB(255, 96, 177, 99)),)),
+        actions: [
+          IconButton(onPressed: logout,
+           icon: Icon(Icons.logout_outlined,
+          size: 25,
+          ))
+        ],
       ),
       drawer: Drawer(),
       body: 
@@ -49,7 +67,8 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(5),
                         color: const Color.fromARGB(255, 96, 177, 99),
                        ),
-                       child: IconButton(onPressed: (){}, 
+                       child: IconButton(
+                        onPressed: addTodo, 
                        icon: Icon(Icons.add,
                        color: Colors.white,
                        size: 40,

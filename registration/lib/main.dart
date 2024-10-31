@@ -12,6 +12,12 @@ await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
   runApp(MaterialApp(home:MainPage() ,
+  routes: {
+    "home":(context)=>HomePage(),
+    "login":(context)=>LoginPage(),
+    "main":(context)=>MainPage(),
+    "registration":(context)=>Registration()
+  },
   
   ));
 }
