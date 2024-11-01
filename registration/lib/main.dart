@@ -4,6 +4,7 @@ import 'package:registration/Login.dart';
 import 'package:registration/Registration.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:registration/mainpage.dart';
+import 'package:registration/update.dart';
 import 'firebase_options.dart';
 
 void main()async{
@@ -16,7 +17,8 @@ await Firebase.initializeApp(
     "home":(context)=>HomePage(),
     "login":(context)=>LoginPage(),
     "main":(context)=>MainPage(),
-    "registration":(context)=>Registration()
+    "registration":(context)=>Registration(),
+    "update":(context)=>Update()
   },
   
   ));
