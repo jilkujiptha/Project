@@ -101,20 +101,27 @@ class _HomePageState extends State<HomePage> {
                         final DocumentSnapshot todoSnapshot =
                             snapshot.data!.docs[index];
                         return ListTile(
-                            title: Text(todoSnapshot["task"].toString()),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  List<dynamic> ls = [
-                                    todoSnapshot["task"],
-                                    todoSnapshot.id
-                                  ];
-                                  Navigator.pushNamed(context, "update",
-                                      arguments: ls);
-                                },
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: const Color.fromARGB(255, 96, 177, 99),
-                                )));
+                          onLongPress: () async {
+                            await Todos.doc(todoSnapshot.id).delete();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Item deleted")));
+                          },
+                          title: Text(todoSnapshot["task"].toString()),
+                          trailing: IconButton(
+                            onPressed: () {
+                              List<dynamic> ls = [
+                                todoSnapshot["task"],
+                                todoSnapshot.id
+                              ];
+                              Navigator.pushNamed(context, "update",
+                                  arguments: ls);
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: const Color.fromARGB(255, 96, 177, 99),
+                            ),
+                          ),
+                        );
                       });
                 }),
           )

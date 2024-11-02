@@ -10,6 +10,11 @@ class Update extends StatefulWidget {
 
 class _UpdateState extends State<Update> {
   TextEditingController add = TextEditingController();
+  final CollectionReference Todos=FirebaseFirestore.instance.collection("Todos");
+
+  void updateTask(id){
+    Todos.doc(id).update({"task":add.text});
+  }
   @override
   Widget build(BuildContext context) {
     List ls = ModalRoute.of(context)?.settings.arguments as List;
