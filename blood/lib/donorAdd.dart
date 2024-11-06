@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DonorAdd extends StatefulWidget {
   const DonorAdd({super.key});
@@ -9,20 +12,69 @@ class DonorAdd extends StatefulWidget {
 
 class _DonorAddState extends State<DonorAdd> {
   String? group;
+  File? image;
+  final ImagePicker _picker = ImagePicker();
+  bool _isChecked=false;
 
-    final List<String> ls = [
-      "A+",
-      "A-",
-      "B+",
-      "B-",
-      "AB+",
-      "AB-",
-      "O+",
-      "O-",
-    ];
+  void pickImage() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Choose any?",
+              style: TextStyle(color: Colors.black),
+            ),
+            actions: [
+              TextButton(
+                onPressed: gallery,
+                child: Text("Gallery", style: TextStyle(color: Colors.black)),
+              ),
+              TextButton(
+                onPressed: camera,
+                child: Text("Camera", style: TextStyle(color: Colors.black)),
+              ),
+            ],
+          );
+        });
+  }
+
+  void gallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
+        Navigator.pop(context);
+      } else {
+        print("error!");
+      }
+    });
+  }
+
+  void camera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
+        Navigator.pop(context);
+      } else {
+        print("error!");
+      }
+    });
+  }
+
+  final List<String> ls = [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-",
+  ];
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -37,16 +89,28 @@ class _DonorAddState extends State<DonorAdd> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100), color: Colors.grey),
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 90,
-              ),
+            GestureDetector(
+              onTap: pickImage,
+              child: Center(
+                  child: ClipOval(
+                      child: image != null
+                          ? Image.file(
+                              image!,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey,
+                              child: Center(
+                                  child: Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.white,
+                              )),
+                            ))),
             ),
             Expanded(
               child: ListView(
@@ -157,22 +221,18 @@ class _DonorAddState extends State<DonorAdd> {
                             color: Colors.grey)
                       ],
                     ),
-                    // child: TextField(
-                    //   // controller: phone,
-                    //   keyboardType: TextInputType.number,
-                    //   decoration: InputDecoration(
-                    //       hintText: "Blood group",
-                    //       hintStyle: TextStyle(color: Colors.black),
-                    //       border: InputBorder.none),
-                    // ),
                     child: Row(
                       children: [
                         Text(
                           group == null ? "Blood group" : "$group",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         Spacer(),
                         DropdownButton(
+                            underline: Container(
+                              height: 0,
+                            ),
                             dropdownColor: Colors.white,
                             items: ls.map((String blood) {
                               return DropdownMenuItem(
@@ -210,6 +270,30 @@ class _DonorAddState extends State<DonorAdd> {
                           border: InputBorder.none),
                     ),
                   ),
+                  SizedBox(height: 30),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    padding: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 5,
+                              offset: Offset(5, 5),
+                              color: Colors.grey)
+                        ]),
+                    child: TextField(
+                      // controller: place,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          hintText: "Weight(kg)",
+                          hintStyle: TextStyle(color: Colors.black),
+                          border: InputBorder.none),
+                    ),
+                  ),
 
                   SizedBox(height: 30),
                   Container(
@@ -219,24 +303,24 @@ class _DonorAddState extends State<DonorAdd> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: [
-                        //     Checkbox(
-                        //         activeColor: Colors.red,
-                        //         checkColor: Colors.white,
-                        //         value: _isChecked,
-                        //         onChanged: (bool? value) {
-                        //           setState(() {
-                        //             _isChecked = value!;
-                        //           });
-                        //         }),
-                        //     Text(
-                        //       "I agree to Donate blood",
-                        //       style: TextStyle(fontSize: 15, color: Colors.red[900]),
-                        //     )
-                        //   ],
-                        // )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                                activeColor: Colors.red,
+                                checkColor: Colors.white,
+                                value: _isChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _isChecked = value!;
+                                  });
+                                }),
+                            Text(
+                              "I agree to Donate blood",
+                              style: TextStyle(fontSize: 15, color: Colors.red[900]),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -260,12 +344,7 @@ class _DonorAddState extends State<DonorAdd> {
                       ),
                       Spacer(),
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            // birthDate();
-                          });
-                          // Navigator.pushNamed(context, "/secondPage");
-                        },
+                        onPressed: () {},
                         child: Text("SUBMIT",
                             style: TextStyle(color: Colors.red[900])),
                         style: TextButton.styleFrom(

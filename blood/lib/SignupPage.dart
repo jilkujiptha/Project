@@ -12,7 +12,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController cpassword = TextEditingController();
-
+  bool obs = true;
   Future signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text.trim(), password: password.text.trim());
@@ -112,11 +112,19 @@ class _SignUpState extends State<SignUp> {
                         color: Colors.grey)
                   ]),
               child: TextField(
+                obscureText: obs,
                 controller: password,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Password",
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 17)),
+                    hintStyle: TextStyle(color: Colors.black, fontSize: 17),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obs = !obs;
+                          });
+                        },
+                        icon: Icon(Icons.remove_red_eye))),
               ),
             ),
             SizedBox(
@@ -137,11 +145,19 @@ class _SignUpState extends State<SignUp> {
                         color: Colors.grey)
                   ]),
               child: TextField(
+                obscureText: obs,
                 controller: cpassword,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: " Confirm Password",
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 17)),
+                    hintStyle: TextStyle(color: Colors.black, fontSize: 17),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obs = !obs;
+                          });
+                        },
+                        icon: Icon(Icons.remove_red_eye))),
               ),
             ),
             SizedBox(

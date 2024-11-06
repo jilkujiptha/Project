@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-
+  bool obs = true;
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email.text.trim(), password: password.text.trim());
@@ -96,11 +96,21 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.grey)
                   ]),
               child: TextField(
+                obscureText: obs,
                 controller: password,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Password",
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 17)),
+                    hintStyle: TextStyle(color: Colors.black, fontSize: 17),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obs = !obs;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                        ))),
               ),
             ),
             SizedBox(

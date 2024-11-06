@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCQE6gw1e81C9kM7dO_DqZO2bMAtchctyk',
-    appId: '1:443316802856:web:43aa1b440e3c09fecf2c1d',
+    appId: '1:443316802856:web:1b37d188316f0beecf2c1d',
     messagingSenderId: '443316802856',
     projectId: 'crud-2acff',
     authDomain: 'crud-2acff.firebaseapp.com',
@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCDnJi6R1RvHzdmQyHXXQ-P5aWEzvVCM2k',
-    appId: '1:443316802856:android:530ed9d0edb8a8a5cf2c1d',
+    appId: '1:443316802856:android:3ed1ef871ed7da99cf2c1d',
     messagingSenderId: '443316802856',
     projectId: 'crud-2acff',
     storageBucket: 'crud-2acff.firebasestorage.app',
@@ -71,4 +71,5 @@ class DefaultFirebaseOptions {
     authDomain: 'crud-2acff.firebaseapp.com',
     storageBucket: 'crud-2acff.firebasestorage.app',
   );
+
 }
