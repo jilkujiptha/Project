@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -8,6 +9,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  Future logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +21,10 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         actions: [
+          IconButton(onPressed: logout, icon: Icon(Icons.logout)),
+          SizedBox(
+            width: 10,
+          ),
           Container(
             width: 60,
             height: 30,
@@ -32,7 +41,7 @@ class _HomepageState extends State<Homepage> {
                 style: TextStyle(fontSize: 18),
               ),
             )),
-          )
+          ),
         ],
       ),
       drawer: Drawer(
@@ -92,46 +101,51 @@ class _HomepageState extends State<Homepage> {
                 itemCount: 2,
                 itemBuilder: (Context, index) {
                   return Stack(children: [
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width,
-                      height: 140,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 10,
-                                offset: Offset(5, 5),
-                                color: Colors.grey)
-                          ]),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            width: 90,
-                            height: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 50,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "display");
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        margin: EdgeInsets.all(20),
+                        width: MediaQuery.of(context).size.width,
+                        height: 140,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 10,
+                                  offset: Offset(5, 5),
+                                  color: Colors.grey)
+                            ]),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 2,
                             ),
-                          ),
-                          Spacer(),
-                          Icon(Icons.call),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(Icons.message)
-                        ],
+                            Container(
+                              margin: EdgeInsets.only(top: 15),
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.grey),
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                            Spacer(),
+                            Icon(Icons.call),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.message)
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(

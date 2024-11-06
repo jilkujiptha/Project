@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -7,9 +8,15 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-TextEditingController email=TextEditingController();
-TextEditingController password=TextEditingController();
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  Future login() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.text.trim(), password: password.text.trim());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +24,8 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
       ),
-      body: ListView(
-        children: [ Column(
+      body: ListView(children: [
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -42,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "LOGIN",
                 style: TextStyle(
-                    color: const Color.fromARGB(255, 190, 42, 31), fontSize: 30),
+                    color: const Color.fromARGB(255, 190, 42, 31),
+                    fontSize: 30),
               ),
             ),
             SizedBox(
@@ -58,7 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                        blurRadius: 10, offset: Offset(5, 5), color: Colors.grey)
+                        blurRadius: 10,
+                        offset: Offset(5, 5),
+                        color: Colors.grey)
                   ]),
               child: TextField(
                 controller: email,
@@ -81,7 +91,9 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                        blurRadius: 10, offset: Offset(5, 5), color: Colors.grey)
+                        blurRadius: 10,
+                        offset: Offset(5, 5),
+                        color: Colors.grey)
                   ]),
               child: TextField(
                 controller: password,
@@ -112,10 +124,14 @@ class _LoginPageState extends State<LoginPage> {
                   color: const Color.fromARGB(255, 190, 42, 31),
                   boxShadow: [
                     BoxShadow(
-                        blurRadius: 10, offset: Offset(5, 5), color: Colors.grey)
+                        blurRadius: 10,
+                        offset: Offset(5, 5),
+                        color: Colors.grey)
                   ]),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  login();
+                },
                 child: Text(
                   "LOGIN",
                   style: TextStyle(color: Colors.white, fontSize: 17),
@@ -138,8 +154,7 @@ class _LoginPageState extends State<LoginPage> {
             )
           ],
         ),
-        ]
-      ),
+      ]),
     );
   }
 }

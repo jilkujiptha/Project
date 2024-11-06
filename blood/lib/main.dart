@@ -8,22 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(MaterialApp(
-    home: LoginPage(),
+    home: MainPage(),
     routes: {
-      "home":(context)=>Homepage(),
-      "login":(context)=>LoginPage(),
-      "signup":(context)=>SignUp(),
-      "add":(context)=>DonorAdd(),
-      "display":(context)=>Display(),
-      "main":(context)=>MainPage()
+      "home": (context) => Homepage(),
+      "login": (context) => LoginPage(),
+      "signup": (context) => SignUp(),
+      "add": (context) => DonorAdd(),
+      "display": (context) => Display(),
+      "main": (context) => MainPage()
     },
   ));
 }
