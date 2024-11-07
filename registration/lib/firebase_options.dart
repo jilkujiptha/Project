@@ -48,19 +48,19 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCQE6gw1e81C9kM7dO_DqZO2bMAtchctyk',
-    appId: '1:443316802856:web:472c0f712d00ecc9cf2c1d',
+    appId: '1:443316802856:web:1b37d188316f0beecf2c1d',
     messagingSenderId: '443316802856',
     projectId: 'crud-2acff',
     authDomain: 'crud-2acff.firebaseapp.com',
-    storageBucket: 'crud-2acff.appspot.com',
+    storageBucket: 'crud-2acff.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCDnJi6R1RvHzdmQyHXXQ-P5aWEzvVCM2k',
-    appId: '1:443316802856:android:0f92a838c1d69b08cf2c1d',
+    appId: '1:443316802856:android:7bad549941a560e0cf2c1d',
     messagingSenderId: '443316802856',
     projectId: 'crud-2acff',
-    storageBucket: 'crud-2acff.appspot.com',
+    storageBucket: 'crud-2acff.firebasestorage.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -69,6 +69,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '443316802856',
     projectId: 'crud-2acff',
     authDomain: 'crud-2acff.firebaseapp.com',
-    storageBucket: 'crud-2acff.appspot.com',
+    storageBucket: 'crud-2acff.firebasestorage.app',
   );
+
 }

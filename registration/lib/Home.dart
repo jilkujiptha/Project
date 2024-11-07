@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   void addTodo() {
     final data = {"task": add.text};
     Todos.add(data);
+    add.clear();
   }
 
   Future logout() async {
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
             child: StreamBuilder(
                 stream: Todos.orderBy("task").snapshots(),
                 builder: (context, snapshot) {
-                  print(snapshot.data!.docs.length);
+                  // print(snapshot.data!.docs.length);
                   return ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
@@ -102,9 +103,41 @@ class _HomePageState extends State<HomePage> {
                             snapshot.data!.docs[index];
                         return ListTile(
                           onLongPress: () async {
-                            await Todos.doc(todoSnapshot.id).delete();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Item deleted")));
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Do you want to delete",
+                                      style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 96, 177, 99)),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    255, 96, 177, 99)),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            Todos.doc(todoSnapshot.id).delete();
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                                color: const Color.fromARGB(
+                                                    255, 96, 177, 99)),
+                                          ))
+                                    ],
+                                  );
+                                });
                           },
                           title: Text(todoSnapshot["task"].toString()),
                           trailing: IconButton(
