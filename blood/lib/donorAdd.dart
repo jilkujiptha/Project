@@ -14,7 +14,8 @@ class _DonorAddState extends State<DonorAdd> {
   String? group;
   File? image;
   final ImagePicker _picker = ImagePicker();
-  bool _isChecked=false;
+  bool _isChecked = false;
+  String? _isSelected;
 
   void pickImage() async {
     showDialog(
@@ -96,8 +97,8 @@ class _DonorAddState extends State<DonorAdd> {
                       child: image != null
                           ? Image.file(
                               image!,
-                              width: 200,
-                              height: 200,
+                              width: 150,
+                              height: 150,
                               fit: BoxFit.cover,
                             )
                           : Container(
@@ -303,22 +304,62 @@ class _DonorAddState extends State<DonorAdd> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "GENDER",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Checkbox(
+                            Text(
+                              "Male",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Radio(
                                 activeColor: Colors.red,
-                                checkColor: Colors.white,
-                                value: _isChecked,
-                                onChanged: (bool? value) {
+                                value: "Male",
+                                groupValue: _isSelected,
+                                onChanged: (String? value) {
                                   setState(() {
-                                    _isChecked = value!;
+                                    _isSelected = value;
                                   });
                                 }),
                             Text(
-                              "I agree to Donate blood",
-                              style: TextStyle(fontSize: 15, color: Colors.red[900]),
-                            )
+                              "Female",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Radio(
+                                activeColor: Colors.red,
+                                value: "Female",
+                                groupValue: _isSelected,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _isSelected = value;
+                                  });
+                                }),
+                            Text(
+                              "Others",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Radio(
+                                activeColor: Colors.red,
+                                value: "Others",
+                                groupValue: _isSelected,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _isSelected = value;
+                                  });
+                                }),
                           ],
                         )
                       ],
@@ -328,31 +369,55 @@ class _DonorAddState extends State<DonorAdd> {
                     height: 20,
                   ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "CANCEL",
-                            style: TextStyle(color: Colors.red[900]),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("SUBMIT",
-                            style: TextStyle(color: Colors.red[900])),
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shadowColor: Colors.grey[600]),
+                      Checkbox(
+                          activeColor: Colors.red,
+                          checkColor: Colors.white,
+                          value: _isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _isChecked = value!;
+                            });
+                          }),
+                      Text(
+                        "I agree to Donate blood",
+                        style: TextStyle(fontSize: 15, color: Colors.red[900]),
                       )
                     ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 50, right: 50),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "CANCEL",
+                        style: TextStyle(color: Colors.red[900]),
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
                   ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text("SUBMIT",
+                        style: TextStyle(color: Colors.red[900])),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shadowColor: Colors.grey[600]),
+                  )
                 ],
               ),
             ),
