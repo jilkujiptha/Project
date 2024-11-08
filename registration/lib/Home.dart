@@ -57,9 +57,10 @@ class _HomePageState extends State<HomePage> {
                   width: MediaQuery.of(context).size.width * .7,
                   height: 60,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 96, 177, 99)),
-                  ),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 96, 177, 99),
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
                   child: TextField(
                     controller: add,
                     decoration: InputDecoration(
@@ -77,13 +78,17 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(5),
                     color: const Color.fromARGB(255, 96, 177, 99),
                   ),
-                  child: IconButton(
-                      onPressed: addTodo,
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 40,
-                      )),
+                  child: GestureDetector(
+                    onTap: addTodo,
+                    child: Center(
+                      child: Text(
+                        "ADD",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -93,70 +98,73 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: StreamBuilder(
-                stream: Todos.orderBy("task").snapshots(),
-                builder: (context, snapshot) {
-                  // print(snapshot.data!.docs.length);
-                  return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        final DocumentSnapshot todoSnapshot =
-                            snapshot.data!.docs[index];
-                        return ListTile(
-                          onLongPress: () async {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "Do you want to delete",
+              stream: Todos.orderBy("task").snapshots(),
+              builder: (context, snapshot) {
+                // print(snapshot.data!.docs.length);
+                return ListView.builder(
+                    itemCount: 0,
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot todoSnapshot =
+                          snapshot.data!.docs[index];
+                      return ListTile(
+                        onLongPress: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                  "Do you want to delete",
+                                  style: TextStyle(
+                                      color: const Color.fromARGB(
+                                          255, 96, 177, 99)),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            color: const Color.fromARGB(
+                                                255, 96, 177, 99)),
+                                      )),
+                                  TextButton(
+                                    onPressed: () {
+                                      Todos.doc(todoSnapshot.id).delete();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "Delete",
                                       style: TextStyle(
                                           color: const Color.fromARGB(
                                               255, 96, 177, 99)),
                                     ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "Cancel",
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    255, 96, 177, 99)),
-                                          )),
-                                      TextButton(
-                                          onPressed: () {
-                                            Todos.doc(todoSnapshot.id).delete();
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "Delete",
-                                            style: TextStyle(
-                                                color: const Color.fromARGB(
-                                                    255, 96, 177, 99)),
-                                          ))
-                                    ],
-                                  );
-                                });
-                          },
-                          title: Text(todoSnapshot["task"].toString()),
-                          trailing: IconButton(
-                            onPressed: () {
-                              List<dynamic> ls = [
-                                todoSnapshot["task"],
-                                todoSnapshot.id
-                              ];
-                              Navigator.pushNamed(context, "update",
-                                  arguments: ls);
+                                  ),
+                                ],
+                              );
                             },
-                            icon: Icon(
-                              Icons.edit,
-                              color: const Color.fromARGB(255, 96, 177, 99),
-                            ),
+                          );
+                        },
+                        title: Text(todoSnapshot["task"].toString()),
+                        trailing: IconButton(
+                          onPressed: () {
+                            List<dynamic> ls = [
+                              todoSnapshot["task"],
+                              todoSnapshot.id
+                            ];
+                            Navigator.pushNamed(context, "update",
+                                arguments: ls);
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: const Color.fromARGB(255, 96, 177, 99),
                           ),
-                        );
-                      });
-                }),
+                        ),
+                      );
+                    });
+              },
+            ),
           )
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +17,17 @@ class _LoginPageState extends State<LoginPage> {
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email.text.trim(), password: password.text.trim());
+  }
+
+  Future signinWithGoogle() async {
+    final firebaseAuth = await FirebaseAuth.instance;
+    final googleService = await GoogleSignIn();
+    final googleUser = await googleService.signIn();
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    final cred = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    final user = await firebaseAuth.signInWithCredential(cred);
   }
 
   @override
@@ -163,28 +175,31 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                  margin: EdgeInsets.only(left: 70, right: 50),
-                  width: MediaQuery.of(context).size.width * .7,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,s
-                    children: [
-                      Container(
-                          padding: EdgeInsets.only(left: 20),
-                          width: 50,
-                          height: 50,
-                          child: Image.asset("./image/search.png")),
-                      SizedBox(
-                        width: 55,
-                      ),
-                      Text("Sign in with Google")
-                    ],
-                  )),
+              GestureDetector(
+                onTap: signinWithGoogle,
+                child: Container(
+                    margin: EdgeInsets.only(left: 70, right: 50),
+                    width: MediaQuery.of(context).size.width * .7,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,s
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(left: 20),
+                            width: 50,
+                            height: 50,
+                            child: Image.asset("./image/search.png")),
+                        SizedBox(
+                          width: 55,
+                        ),
+                        Text("Sign in with Google")
+                      ],
+                    )),
+              ),
               SizedBox(
                 height: 50,
               ),

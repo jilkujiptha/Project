@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,6 +14,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  final CollectionReference _user=FirebaseFirestore.instance.collection("user");   
+        
 
   bool obs = true;
 
@@ -32,10 +36,17 @@ class _LoginPageState extends State<LoginPage> {
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
       final user = await firebaseAuth.signInWithCredential(cred);
       print(googleuser);
+      final data = {
+        "name": googleuser!.displayName,
+        "email": googleuser.email,
+        "photo": googleuser.photoUrl,
+        "id": googleuser.id
+      };
+      _user.add(data);
     } catch (e) {
       print(e);
-    }
   }
+}
 
   @override
   Widget build(BuildContext context) {
