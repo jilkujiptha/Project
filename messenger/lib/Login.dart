@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:messenger/Provider/chnageNotifier.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,11 +16,55 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController pwd = TextEditingController();
   bool obs = true;
+  final collectionReference =
+      FirebaseFirestore.instance.collection("messenger");
+  Future addUser(userid, username) async {
+    QuerySnapshot querySnapshot =
+        await collectionReference.where("userid", isEqualTo: userid).get();
+    if (querySnapshot.docs.isEmpty) {
+      collectionReference.add({"userid": userid, "username": username});
+    }
+  }
 
   Future login() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email.text.trim(), password: pwd.text.trim());
   }
+
+  Future signinWithGoogle() async {
+    try {
+      final firebaseAuth = await FirebaseAuth.instance;
+      final googleservice = await GoogleSignIn();
+      final googleUser = await googleservice.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      final cred = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+      final User = await firebaseAuth.signInWithCredential(cred);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Future<dynamic> signIn() async {
+  //   try {
+  //     UserCredential uc = await FirebaseAuth.instance
+  //         .signInWithEmailAndPassword(email: email.text, password: pwd.text);
+  //     // print("hai");
+  //     Provider.of<UserProvider>(context, listen: false)
+  //         .setUid(uc.user?.uid ?? '');
+  //     print("==============================================================");
+  //     print(Provider.of<UserProvider>(context, listen: false).uid);
+  //     print("=================================================");
+  //   } catch (e) {
+  //     print("Sign-in error:$e");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text("Failed to sign in:$e"),
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +175,7 @@ class _LoginState extends State<Login> {
                     margin: EdgeInsets.only(right: 50),
                     child: GestureDetector(
                       onTap: () {
-                        
+                        Navigator.pushNamed(context, "forgot");
                       },
                       child: Text(
                         "Forgot password",
@@ -145,9 +193,7 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(20),
                     color: const Color.fromARGB(255, 226, 232, 238)),
                 child: TextButton(
-                  onPressed: () {
-                    login();
-                  },
+                  onPressed: login,
                   child: Text(
                     "Login",
                     style: TextStyle(color: Colors.black, fontSize: 19),
@@ -155,7 +201,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: signinWithGoogle,
                 child: Container(
                   padding: EdgeInsets.only(left: 20),
                   margin: EdgeInsets.only(

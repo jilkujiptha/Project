@@ -13,6 +13,7 @@ class _HomeState extends State<Home> {
     await FirebaseAuth.instance.signOut();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +21,17 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
-              onPressed: () {
-                logout();
-              },
-              icon: Icon(Icons.logout))
+            onPressed: () {
+              logout();
+            },
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
     );
   }
 }
