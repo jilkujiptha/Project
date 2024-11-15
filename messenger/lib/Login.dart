@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:messenger/Provider/changeNotifier.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,6 +17,9 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController pwd = TextEditingController();
   bool obs = true;
+
+  final _message = Hive.box("mybox");
+
   final collectionReference =
       FirebaseFirestore.instance.collection("messenger");
   Future addUser(userid, username) async {
@@ -26,9 +31,32 @@ class _LoginState extends State<Login> {
   }
 
   Future login() async {
-  final user=  await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.text.trim(), password: pwd.text.trim());
-        addUser(user.user?.uid, user.user?.displayName);
+    try {
+      UserCredential uc = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email.text, password: pwd.text);
+      // print("hai");
+      Provider.of<UserPrivider>(context, listen: false)
+          .setUid(uc.user?.uid ?? '');
+      print("==============================================================");
+      print(Provider.of<UserPrivider>(context, listen: false).uid);
+      print("=================================================");
+      addUser(uc.user?.uid, uc.user?.displayName);
+      final mp = {
+        "id": uc.user?.uid,
+      };
+
+      _message.put(1, mp);
+      print("==============================================================");
+      print(_message.get(1));
+      print("==============================================================");
+    } catch (e) {
+      print("Sign-in error:$e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Failed to sign in:$e"),
+        ),
+      );
+    }
   }
 
   Future signinWithGoogle() async {
@@ -46,31 +74,14 @@ class _LoginState extends State<Login> {
     }
   }
 
-  // Future<dynamic> signIn() async {
-  //   try {
-  //     UserCredential uc = await FirebaseAuth.instance
-  //         .signInWithEmailAndPassword(email: email.text, password: pwd.text);
-  //     // print("hai");
-  //     Provider.of<UserProvider>(context, listen: false)
-  //         .setUid(uc.user?.uid ?? '');
-  //     print("==============================================================");
-  //     print(Provider.of<UserProvider>(context, listen: false).uid);
-  //     print("=================================================");
-  //   } catch (e) {
-  //     print("Sign-in error:$e");
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text("Failed to sign in:$e"),
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<dynamic> signIn() async {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 52, 100, 189),
         body: Expanded(

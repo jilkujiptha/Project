@@ -39,6 +39,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 52, 100, 189),
         body: Expanded(
