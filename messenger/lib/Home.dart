@@ -10,9 +10,44 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Future logout() async {
-    await FirebaseAuth.instance.signOut();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Do you want to Logout",
+              style: TextStyle(
+                color: const Color.fromARGB(255, 52, 100, 189),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 52, 100, 189),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Logout",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 52, 100, 189),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +67,21 @@ class _HomeState extends State<Home> {
         ],
       ),
       backgroundColor: Colors.black,
+      body: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(left: 20, right: 20),
+        width: MediaQuery.of(context).size.width,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.grey[800],
+        ),
+        child: TextField(
+          decoration: InputDecoration(border: InputBorder.none,
+          prefixIcon: Image.asset("")
+          ),
+        ),
+      ),
     );
   }
 }
