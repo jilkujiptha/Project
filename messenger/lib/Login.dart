@@ -45,9 +45,9 @@ class _LoginState extends State<Login> {
         "id": uc.user?.uid,
       };
 
-      _message.put(1, mp);
+      _message.put("sender", mp);
       print("==============================================================");
-      print(_message.get(1));
+      print(_message.get("sender"));
       print("==============================================================");
     } catch (e) {
       print("Sign-in error:$e");

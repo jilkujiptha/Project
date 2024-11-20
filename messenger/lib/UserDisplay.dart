@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:messenger/Provider/changeNotifier.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,8 @@ class _UserDisplayState extends State<UserDisplay> {
     super.initState();
     getUsers();
   }
+
+  final _message = Hive.box("mybox");
 
   void getUsers() async {
     CollectionReference users =
@@ -58,6 +61,13 @@ class _UserDisplayState extends State<UserDisplay> {
                       print("Tapped on ${user["userid"]}");
                       Provider.of<UserPrivider>(context, listen: false)
                           .setUid(user["userid"] ?? '');
+                      var id = {
+                        "uid": user["userid"],
+                        "username": user["username"]
+                      };
+                      _message.put("sender", id);
+                      print(_message.get("sender"));
+                      Navigator.pushNamed(context, "chatbox");
                       print(Provider.of<UserPrivider>(context, listen: false)
                           .uid);
                     },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:messenger/ChatBox.dart';
 import 'package:messenger/Home.dart';
 import 'package:messenger/Login.dart';
 import 'package:messenger/Provider/changeNotifier.dart';
@@ -31,7 +32,8 @@ void main() async {
           "home": (context) => Home(),
           "main": (context) => MainPage(),
           "forgot": (context) => ForgotPassword(),
-          "display": (context) => UserDisplay()
+          "display": (context) => UserDisplay(),
+          "chatbox":(context)=>ChatBox()
         },
       ),
     ),
