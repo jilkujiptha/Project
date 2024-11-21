@@ -65,9 +65,9 @@ class _UserDisplayState extends State<UserDisplay> {
                         "uid": user["userid"],
                         "username": user["username"]
                       };
-                      _message.put("sender", id);
-                      print(_message.get("sender"));
-                      Navigator.pushNamed(context, "chatbox");
+                      _message.put("receiver", id);
+                      print(_message.get("receiver"));
+                      Navigator.pushReplacementNamed(context, "chatbox");
                       print(Provider.of<UserPrivider>(context, listen: false)
                           .uid);
                     },

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -34,7 +35,15 @@ class _HomeState extends State<Home> {
               ),
               TextButton(
                 onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
+                  final googleSignIn = GoogleSignIn();
+                  if (await googleSignIn.isSignedIn()) {
+                    await FirebaseAuth.instance.signOut();
+                    if (await googleSignIn.isSignedIn()) {
+                      await googleSignIn.disconnect();
+                    }
+                  } else {
+                    print("user not signedin");
+                  }
                   Navigator.pop(context);
                 },
                 child: Text(
@@ -82,21 +91,25 @@ class _HomeState extends State<Home> {
         ],
       ),
       backgroundColor: const Color.fromARGB(255, 6, 12, 17),
-      body: Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
-        padding: EdgeInsets.only(left: 20, right: 20),
-        width: MediaQuery.of(context).size.width,
-        height: 60,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(255, 37, 48, 56),
-        ),
-        child: TextField(
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: "Search...",
-              hintStyle: TextStyle(color: Colors.black)),
-        ),
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 20, right: 20),
+            padding: EdgeInsets.only(left: 20, right: 20),
+            width: MediaQuery.of(context).size.width,
+            height: 60,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color.fromARGB(255, 37, 48, 56),
+            ),
+            child: TextField(
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Search...",
+                  hintStyle: TextStyle(color: Colors.black)),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 52, 100, 189),

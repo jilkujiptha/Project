@@ -69,8 +69,17 @@ class _LoginState extends State<Login> {
       final cred = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
       final User = await firebaseAuth.signInWithCredential(cred);
+      addUser(User.user?.uid, User.user?.displayName);
+      final mp = {
+        "id": User.user?.uid,
+      };
+
+      _message.put("sender", mp);
     } catch (e) {
-      print(e);
+      print("Sign-in error:$e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Failed to sign in:$e"),
+      ));
     }
   }
 
@@ -81,7 +90,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 52, 100, 189),
         body: Expanded(
