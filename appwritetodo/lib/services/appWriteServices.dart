@@ -1,0 +1,31 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
+
+class appWriteServices {
+  late Client client;
+  late Databases databases;
+  static const endpoint = "https://cloud.appwrite.io/v1";
+  static const projectId = "67406594000d63f66303";
+  static const databaseid = "6740674d00069bff2051";
+  static const collectionId = "674067c40026ab1b4987";
+
+  appWriteServices() {
+    client = Client();
+    client.setEndpoint(endpoint);
+    client.setProject(projectId);
+    databases = Databases(client);
+  }
+  Future<Document> addTask(String _task) async {
+    try {
+      final documentId = ID.unique();
+      print(documentId);
+      final result = await databases.createDocument(
+          databaseId: databaseid,
+          collectionId: collectionId,
+          documentId: documentId,
+          data: {"task": _task, "isCompleted": false});
+    } catch (e) {
+      print(e);
+    }
+  }
+}
