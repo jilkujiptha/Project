@@ -58,7 +58,8 @@ void addUser(){
                   "Logout",
                   style: TextStyle(
                     color: const Color.fromARGB(255, 52, 100, 189),
-                  ),
+  
+                ),
                 ),
               ),
             ],

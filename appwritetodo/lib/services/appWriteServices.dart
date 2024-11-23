@@ -15,17 +15,33 @@ class appWriteServices {
     client.setProject(projectId);
     databases = Databases(client);
   }
+
   Future<Document> addTask(String _task) async {
     try {
       final documentId = ID.unique();
+      print("..................................................");
       print(documentId);
       final result = await databases.createDocument(
           databaseId: databaseid,
           collectionId: collectionId,
           documentId: documentId,
           data: {"task": _task, "isCompleted": false});
+      return result;
     } catch (e) {
       print(e);
+      rethrow;
+    }
+  }
+  Future<List<Document>>getTasks()async{
+    try {
+      final results=await databases.listDocuments(databaseId: databaseid, collectionId: collectionId);
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      print(results);
+      print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+      return results.documents;
+    } catch (e) {
+      print(e);
+      rethrow;
     }
   }
 }
