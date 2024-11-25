@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
       try {
         await _services.addTask(task);
         add.clear();
+        _loadTask();
       } catch (e) {
         print(e);
       }
@@ -48,13 +49,26 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> _updateTaskStatus(Task task) async {
+    try {
+      final updateTask =
+          await _services.updateTaskStatus(task.id, !task.isCompleted);
+      setState(() {
+        task.isCompleted != updateTask.data["completed"];
+        _loadTask();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      // appBar: AppBar(
-      //   backgroundColor: Colors.grey[900],
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.grey[900],
+      ),
       body: Expanded(
         child: Column(
           children: [
@@ -97,13 +111,33 @@ class _HomeState extends State<Home> {
                 )
               ],
             ),
-            ListView.builder(
-                itemCount: _tasks!.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_tasks![index].tasks),
-                  );
-                })
+            Expanded(
+              child: ListView.builder(
+                  itemCount: _tasks!.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      onLongPress: () {
+                        _services.deleteTask(_tasks![index].id);
+                        _loadTask();
+                      },
+                      title: Text(
+                        _tasks![index].task,
+                        style: TextStyle(
+                            color: Colors.white,
+                            decoration: _tasks![index].isCompleted
+                                ? TextDecoration.lineThrough
+                                : null,
+                            decorationColor: Colors.green),
+                      ),
+                      trailing: IconButton(
+                          onPressed: () => _updateTaskStatus(_tasks![index]),
+                          icon: Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )),
+                    );
+                  }),
+            )
           ],
         ),
       ),

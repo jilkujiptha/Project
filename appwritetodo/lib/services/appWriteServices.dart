@@ -32,13 +32,38 @@ class appWriteServices {
       rethrow;
     }
   }
-  Future<List<Document>>getTasks()async{
+
+  Future<List<Document>> getTasks() async {
     try {
-      final results=await databases.listDocuments(databaseId: databaseid, collectionId: collectionId);
+      final results = await databases.listDocuments(
+          databaseId: databaseid, collectionId: collectionId);
       print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       print(results);
       print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
       return results.documents;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteTask(id) async {
+    try {
+      final results = await databases.deleteDocument(
+          databaseId: databaseid, collectionId: collectionId, documentId: id);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<Document> updateTaskStatus(String documentId, bool completed) async {
+    try {
+      final result = await databases.updateDocument(
+          databaseId: databaseid,
+          collectionId: collectionId,
+          documentId: documentId,
+          data: {"isCompleted": completed});
+          return result;
     } catch (e) {
       print(e);
       rethrow;
