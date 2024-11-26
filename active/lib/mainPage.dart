@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:active/Active.dart';
+import 'package:active/Services/appwriteSevices.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -8,6 +12,44 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late AppwriteService _appwriteService;
+  List? _Employee;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _appwriteService = AppwriteService();
+    _Employee = [];
+    _loadTask();
+  }
+
+  Future<void> _loadTask() async {
+    try {
+      final employee = await _appwriteService.getEmployee();
+      setState(() {
+        _Employee = employee.map((e) => Employee.formDocument(e)).toList();
+        print("**************************");
+        print(_Employee);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _updateTask(Employee task) async {
+    try {
+      final updatetask =
+          await _appwriteService.updateListStatus(task.id, !task.isActive);
+      setState(() {
+        task.isActive != updatetask.data["active"];
+        _loadTask();
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,19 +90,21 @@ class _MainPageState extends State<MainPage> {
         height: MediaQuery.of(context).size.height,
         child: Expanded(
           child: GridView.builder(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(left: 10, right: 10, top: 30),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 3 / 3.5,
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
-            itemCount: 4,
+            itemCount: _Employee!.length,
             itemBuilder: (context, index) {
               return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[900],
+                  color: _Employee![index].isActive
+                      ? const Color.fromARGB(255, 66, 165, 69)
+                      : const Color.fromARGB(255, 190, 30, 19),
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 5,
@@ -90,24 +134,46 @@ class _MainPageState extends State<MainPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Name :",
-                      style: TextStyle(color: Colors.white),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Name :",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          _Employee![index].name,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      width: 130,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Activate",
-                          style: TextStyle(color: Colors.white),
+                    GestureDetector(
+                      onTap: () {
+                        _updateTask(_Employee![index]);
+                      },
+                      child: Container(
+                        width: 130,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: _Employee![index].isActive
+                                  ? const Color.fromARGB(255, 184, 48, 38)
+                                  : const Color.fromARGB(255, 57, 134, 59)),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _Employee![index].isActive
+                                ? "Deactivate"
+                                : "Activate",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     )
