@@ -13,6 +13,34 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
+        title: Center(
+          child: Text(
+            "List of Employees",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        actions: [
+          MaterialButton(
+            onPressed: () {},
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "second");
+              },
+              icon: Container(
+                width: 40,
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.green),
+                child: Icon(
+                  Icons.add,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
       backgroundColor: Colors.grey[900],
       body: Container(
@@ -48,8 +76,8 @@ class _MainPageState extends State<MainPage> {
                       height: 20,
                     ),
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 70,
+                      height: 70,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.grey[800],
@@ -78,7 +106,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       child: Center(
                         child: Text(
-                          "Active",
+                          "Activate",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
