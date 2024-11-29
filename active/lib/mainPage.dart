@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:active/Active.dart';
 import 'package:active/Services/appwriteSevices.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -14,6 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late AppwriteService _appwriteService;
   List? _Employee;
+  Uint8List? _image;
 
   @override
   void initState() {
@@ -89,98 +94,113 @@ class _MainPageState extends State<MainPage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Expanded(
-          child: GridView.builder(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 3 / 3.5,
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: _Employee!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: _Employee![index].isActive
-                      ? const Color.fromARGB(255, 66, 165, 69)
-                      : const Color.fromARGB(255, 190, 30, 19),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: 70,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.grey[800],
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Name :",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          _Employee![index].name,
-                          style: TextStyle(color: Colors.black),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              _loadTask();
+              await Future.delayed(Duration(seconds: 1));
+            },
+            child: GridView.builder(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 3 / 3.5,
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: _Employee!.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onLongPress: () {
+                    _appwriteService.deleteTask(_Employee![index].id);
+                    _loadTask();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: _Employee![index].isActive
+                          ? const Color.fromARGB(255, 66, 165, 69)
+                          : const Color.fromARGB(255, 190, 30, 19),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          spreadRadius: 0,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        _updateTask(_Employee![index]);
-                      },
-                      child: Container(
-                        width: 130,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: _Employee![index].isActive
-                                  ? const Color.fromARGB(255, 184, 48, 38)
-                                  : const Color.fromARGB(255, 57, 134, 59)),
-                          borderRadius: BorderRadius.circular(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 20,
                         ),
-                        child: Center(
-                          child: Text(
-                            _Employee![index].isActive
-                                ? "Deactivate"
-                                : "Activate",
-                            style: TextStyle(color: Colors.black),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.grey[800],
+                            ),
+                            child: Image.memory(
+                              _image = base64Decode(_Employee![index].photo),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Name :",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              _Employee![index].name,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _updateTask(_Employee![index]);
+                          },
+                          child: Container(
+                            width: 130,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: _Employee![index].isActive
+                                      ? const Color.fromARGB(255, 184, 48, 38)
+                                      : const Color.fromARGB(255, 57, 134, 59)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                _Employee![index].isActive
+                                    ? "Deactivate"
+                                    : "Activate",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

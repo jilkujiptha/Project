@@ -40,8 +40,6 @@ class _SecondPageState extends State<SecondPage> {
     }
   }
 
- 
-
   void pickImg() async {
     showDialog(
         context: context,
@@ -189,8 +187,8 @@ class _SecondPageState extends State<SecondPage> {
                   child: TextButton(
                     onPressed: () {
                       addEmployee();
-                      // Navigator.pushNamedAndRemoveUntil(
-                      //     context, "first", (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "first", (route) => false);
                     },
                     child: Text(
                       "ADD",

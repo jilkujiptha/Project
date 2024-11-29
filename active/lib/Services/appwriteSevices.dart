@@ -60,4 +60,13 @@ class AppwriteService {
       rethrow;
     }
   }
+
+  Future<void> deleteTask(id) async {
+    try {
+      final result = await databases.deleteDocument(
+          databaseId: databaseId, collectionId: collectionId, documentId: id);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
